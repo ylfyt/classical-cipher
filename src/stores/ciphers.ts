@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import type { ICipher } from '../interfaces/cipher';
+import { vigenereDecrypt, vigenereEncrypt } from '../algorithms/vigener-cipher';
 const alg = ['vigenere-cipher', 'varian-vigenere-cipher', 'extended-vigenere-cipher', 'affine-cipher', 'playfair-cipher', 'hill-cipher', 'enigma-cipher'];
 
 const temp = (data: number[], key: number[]): number[] => {
@@ -11,10 +12,8 @@ export const ciphers: ICipher[] = [
 		name: 'Vigenere Cipher',
 		label: 'vigenere-cipher',
 		keyType: 'text',
-		encrypter: (data, key) => {  
-			return [...data, ...key];
-		},
-		decrypter: temp,
+		encrypter: vigenereEncrypt,
+		decrypter: vigenereDecrypt,
 	},
 	{
 		name: 'Varian Vigenere Cipher',
