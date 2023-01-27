@@ -1,15 +1,21 @@
 <script lang="ts">
-	import { Link } from 'svelte-navigator';
+  import CipherOption from '../components/cipher-option.svelte';
+	import Input from '../components/input.svelte';
+	import Key from '../components/key.svelte';
+	import Output from '../components/output.svelte';
+  import { selectedCipher } from '../stores/ciphers';
 </script>
 
-<div>
-	<ul>
-		<li><Link to="/vigenere-cipher">Vigenere Cipher</Link></li>
-		<li><Link to="/varian-vigenere-cipher">Varian Vigenere Cipher</Link></li>
-		<li><Link to="/extended-vigenere-cipher">Extended Vigenere Cipher</Link></li>
-		<li><Link to="/affine-cipher">Affine Cipher</Link></li>
-		<li><Link to="/playfair-cipher">Playfair Cipher</Link></li>
-		<li><Link to="/hill-cipher">Hill Cipher</Link></li>
-		<li><Link to="/enigma-cipher">Enigma cipher</Link></li>
-	</ul>
+<div class="">
+	<h1 class="text-4xl text-center mb-10">{$selectedCipher.name}</h1>
+	<div class="flex flex-col gap-5">
+    <CipherOption />
+		<Key />
+		<Input />
+		<div class="flex gap-2 px-4 py-2 border-2 rounded-md">
+			<button class="p-2 bg-gray-300 shadow-md rounded-md hover:bg-gray-600">Encrypt</button>
+			<button class="p-2 bg-gray-300 shadow-md rounded-md hover:bg-gray-600">Decrypt</button>
+		</div>
+		<Output />
+	</div>
 </div>
