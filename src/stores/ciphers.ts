@@ -11,7 +11,7 @@ export const ciphers: ICipher[] = [
 		name: 'Vigenere Cipher',
 		label: 'vigenere-cipher',
 		keyType: 'text',
-		encrypter: (data, key) => {
+		encrypter: (data, key) => {  
 			return [...data, ...key];
 		},
 		decrypter: temp,
