@@ -11,33 +11,35 @@
 </script>
 
 <Router>
-	<main class="app">
-		<Route path="/*" primary={false}>
-			<Route path="/">
-				<Home />
+	<main class="app bg-slate-300 flex justify-center">
+		<div class="w-1/2">
+			<Route path="/*" primary={false}>
+				<Route path="/">
+					<Home />
+				</Route>
+				<Route path="/vigenere-cipher">
+					<VigenereCipher />
+				</Route>
+				<Route path="/varian-vigenere-cipher">
+					<VarianVigenereCipher />
+				</Route>
+				<Route path="/extended-vigenere-cipher">
+					<ExtendedVigenereCipher />
+				</Route>
+				<Route path="/affine-cipher">
+					<AffineCipher />
+				</Route>
+				<Route path="/playfair-cipher">
+					<PlayfairCipher />
+				</Route>
+				<Route path="/hill-cipher">
+					<HillCipher />
+				</Route>
+				<Route path="/enigma-cipher">
+					<EnigmaCipher />
+				</Route>
 			</Route>
-			<Route path="/vigenere-cipher">
-				<VigenereCipher />
-			</Route>
-			<Route path="/varian-vigenere-cipher">
-				<VarianVigenereCipher />
-			</Route>
-			<Route path="/extended-vigenere-cipher">
-				<ExtendedVigenereCipher />
-			</Route>
-			<Route path="/affine-cipher">
-				<AffineCipher />
-			</Route>
-			<Route path="/playfair-cipher">
-				<PlayfairCipher />
-			</Route>
-			<Route path="/hill-cipher">
-				<HillCipher />
-			</Route>
-			<Route path="/enigma-cipher">
-				<EnigmaCipher />
-			</Route>
-		</Route>
+		</div>
 	</main>
 </Router>
 

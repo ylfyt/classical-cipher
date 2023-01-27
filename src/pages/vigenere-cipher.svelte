@@ -4,8 +4,8 @@
 	import Output from '../components/output.svelte';
 </script>
 
-<div>
-	<h1>Vigenere Cipher</h1>
+<div class="">
+	<h1 class="text-4xl text-center mb-4">Vigenere Cipher</h1>
 	<div>
 		<Input />
 		<Key />
