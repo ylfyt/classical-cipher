@@ -1,7 +1,7 @@
 export interface ICipher {
 	name: string;
 	label: string;
-	isMatrixKey: boolean;
-	encrypter: (buff: Buffer) => Buffer;
-	decrypter: (buff: Buffer) => Buffer;
+	keyType: 'matrix' | 'number' | 'text';
+	encrypter: (data: number[], key: number[]) => number[];
+	decrypter: (data: number[], key: number[]) => number[];
 }

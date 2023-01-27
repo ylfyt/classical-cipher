@@ -1,9 +1,9 @@
 <script lang="ts">
-	export let isMatrix = false;
+	import { selectedCipher } from '../stores/ciphers';
 </script>
 
 <div>
-	{#if !isMatrix}
+	{#if $selectedCipher.keyType !== 'matrix'}
 		<div class="flex flex-col">
 			<label for="key">Secret Key</label>
 			<input class="p-2 rounded-md" placeholder="Key..." type="text" />
