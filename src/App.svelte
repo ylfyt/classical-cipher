@@ -12,7 +12,7 @@
 
 <Router>
 	<main class="app bg-slate-300 flex justify-center">
-		<div class="w-1/2">
+		<div class="w-3/4 lg:w-1/2">
 			<Route path="/*" primary={false}>
 				<Route path="/">
 					<Home />

@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { dataInput } from "../stores/data-input";
+  
 	let isFile = true;
-	let text = '';
 </script>
 
 <div class="flex flex-col gap-4">
@@ -10,7 +11,7 @@
 	</div>
 	<div class="">
 		{#if !isFile}
-			<textarea class="w-full p-2 rounded-md" rows="5" placeholder="text" />
+			<textarea class="w-full p-2 rounded-md" rows="5" placeholder="text" bind:value={$dataInput.data} />
 		{:else}
 			<input class="bg-white file:rounded-md file:bg-gray-300 hover:file:bg-gray-600 w-full p-2 rounded-md" type="file" />
 		{/if}
