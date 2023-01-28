@@ -3,12 +3,42 @@
 	import { strToUtf16Bytes } from '../utils/str-to-16-bytes';
 
 	let isFile = false;
+	let files: FileList;
+
+	$: {
+		(() => {
+			if (!files || files.length === 0) return;
+			const file = files[0];
+			file.arrayBuffer().then((buff) => {
+				const uint8 = new Uint8Array(buff);
+				const data: number[] = [];
+				for (let i = 0; i < uint8.length; i++) {
+					data.push(uint8[i]);
+				}
+				dataInput.set(data);
+			});
+		})();
+	}
 </script>
 
 <div class="flex flex-col gap-4">
 	<div class="flex rounded h-[40px]">
-		<button class={`w-full shadow-md rounded-l-lg ${!isFile ? 'bg-gray-600' : 'bg-gray-300'}`} on:click={() => (isFile = false)}>Text</button>
-		<button class={`rounded-r-lg shadow-md w-full ${isFile ? 'bg-gray-600' : 'bg-gray-300'}`} on:click={() => (isFile = true)}>File</button>
+		<button
+			class={`w-full shadow-md rounded-l-lg ${!isFile ? 'bg-gray-600' : 'bg-gray-300'}`}
+			on:click={() => {
+				isFile = false;
+				strInput.set('');
+				files = undefined;
+			}}>Text</button
+		>
+		<button
+			class={`rounded-r-lg shadow-md w-full ${isFile ? 'bg-gray-600' : 'bg-gray-300'}`}
+			on:click={() => {
+				isFile = true;
+				strInput.set('');
+				files = undefined;
+			}}>File</button
+		>
 	</div>
 	<div class="">
 		{#if !isFile}
@@ -23,7 +53,7 @@
 				bind:value={$strInput}
 			/>
 		{:else}
-			<input class="bg-white file:rounded-md file:bg-gray-300 hover:file:bg-gray-600 w-full p-2 rounded-md" type="file" />
+			<input bind:files class="bg-white file:rounded-md file:bg-gray-300 hover:file:bg-gray-600 w-full p-2 rounded-md" type="file" />
 		{/if}
 	</div>
 </div>
