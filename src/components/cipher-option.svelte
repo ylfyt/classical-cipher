@@ -1,9 +1,15 @@
 <script lang="ts">
 	import { ciphers, selectedCipher } from '../stores/ciphers';
-  import { isDecrypt } from '../stores/data';
+	import { isDecrypt, resetState } from '../stores/data';
 	import Switch from './switch.svelte';
 
 	let selected: string;
+
+	$: (() => {
+		const _ = selected;
+		const __ = $isDecrypt;
+		resetState();
+	})();
 </script>
 
 <div class="flex gap-10">

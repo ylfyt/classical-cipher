@@ -15,6 +15,7 @@
 		<Input />
 		<div class="flex gap-2 px-4 py-2 border-2 rounded-md">
 			<button
+				disabled={$dataInput.length === 0 || $secretKey.length === 0}
 				on:click={() => {
 					if ($isDecrypt) {
 						const result = $selectedCipher.decrypter($dataInput, $secretKey);
