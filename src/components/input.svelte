@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { dataInput } from "../stores/data";
-  
+	import { dataInput, isDecrypt } from '../stores/data';
+	import { strToUtf16Bytes } from '../utils/str-to-16-bytes';
+
 	let isFile = false;
+	let strInput: string = '';
 </script>
 
 <div class="flex flex-col gap-4">
@@ -11,7 +13,16 @@
 	</div>
 	<div class="">
 		{#if !isFile}
-			<textarea class="w-full p-2 rounded-md" rows="5" placeholder="text" bind:value={$dataInput} />
+			<textarea
+				on:change={() => {
+					const bytes = strToUtf16Bytes($isDecrypt ? strInput.toUpperCase() : strInput.toLowerCase());
+					dataInput.set(bytes);
+				}}
+				class={`w-full p-2 rounded-md ${$isDecrypt ? 'uppercase' : 'lowercase'}`}
+				rows="5"
+				placeholder="text"
+				bind:value={strInput}
+			/>
 		{:else}
 			<input class="bg-white file:rounded-md file:bg-gray-300 hover:file:bg-gray-600 w-full p-2 rounded-md" type="file" />
 		{/if}

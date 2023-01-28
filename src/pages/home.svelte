@@ -4,8 +4,7 @@
 	import Key from '../components/key.svelte';
 	import Output from '../components/output.svelte';
 	import { selectedCipher } from '../stores/ciphers';
-	import { dataInput, dataOutput } from '../stores/data';
-	import { strToUtf16Bytes } from '../utils/str-to-16-bytes';
+	import { dataInput, dataOutput, isDecrypt, secretKey } from '../stores/data';
 </script>
 
 <div class="">
@@ -16,13 +15,18 @@
 		<Input />
 		<div class="flex gap-2 px-4 py-2 border-2 rounded-md">
 			<button
-				class="p-2 bg-gray-300 shadow-md rounded-md hover:bg-gray-600"
 				on:click={() => {
-					const result = $selectedCipher.encrypter(strToUtf16Bytes($dataInput), [10, 10]);
+					if ($isDecrypt) {
+						const result = $selectedCipher.decrypter($dataInput, $secretKey);
+						dataOutput.set(result);
+						return;
+					}
+
+					const result = $selectedCipher.encrypter($dataInput, $secretKey);
 					dataOutput.set(result);
-				}}>Encrypt</button
+				}}
+				class="p-2 bg-gray-300 shadow-md rounded-md hover:bg-gray-400">RUN</button
 			>
-			<button class="p-2 bg-gray-300 shadow-md rounded-md hover:bg-gray-600">Decrypt</button>
 		</div>
 		<Output />
 	</div>

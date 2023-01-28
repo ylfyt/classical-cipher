@@ -7,20 +7,18 @@ const app = new App({
 	target: document.getElementById('app'),
 });
 
-const str = '/thisplaintext';
-const key = 'sony';
-const bytes = strToUtf16Bytes(str);
-const keyBytes = strToUtf16Bytes(key);
+// const str = 'thisplaintext';
+// const key = 'sony';
+// const bytes = strToUtf16Bytes(str);
+// const keyBytes = strToUtf16Bytes(key);
 
+// console.log("P", bytes)
+// console.log("K", keyBytes);
 
-console.log("P", bytes)
-console.log("K", keyBytes);
+// const resE = vigenereEncrypt(bytes, keyBytes);
+// console.log('E', bytesToStr(resE), resE);
 
-
-const resE = vigenereEncrypt(bytes, keyBytes);
-console.log('E', bytesToStr(resE), resE);
-
-const resD = vigenereDecrypt(resE, keyBytes);
-console.log('D', bytesToStr(resD), resD);
+// const resD = vigenereDecrypt(resE, keyBytes);
+// console.log('D', bytesToStr(resD), resD);
 
 export default app;
