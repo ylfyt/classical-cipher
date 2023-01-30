@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import type { ICipher } from '../interfaces/cipher';
 import { vigenereDecrypt, vigenereEncrypt } from '../algorithms/vigener-cipher';
+import { autoKeyVigenereDecrypt, autoKeyVigenereEncrypt } from '../algorithms/auto-key-vigenere-cipher';
 
 const temp = (data: number[], key: number[]): number[] => {
 	throw new Error('not implemented yet');
@@ -8,18 +9,18 @@ const temp = (data: number[], key: number[]): number[] => {
 
 export const ciphers: ICipher[] = [
 	{
+		name: 'Auto Key Vigenere Cipher',
+		label: 'auto-key-vigenere-cipher',
+		keyType: 'text',
+		encrypter: autoKeyVigenereEncrypt,
+		decrypter: autoKeyVigenereDecrypt,
+	},
+	{
 		name: 'Vigenere Cipher',
 		label: 'vigenere-cipher',
 		keyType: 'text',
 		encrypter: vigenereEncrypt,
 		decrypter: vigenereDecrypt,
-	},
-	{
-		name: 'Varian Vigenere Cipher',
-		label: 'varian-vigenere-cipher',
-		keyType: 'text',
-		encrypter: temp,
-		decrypter: temp,
 	},
 	{
 		name: 'Extended Vigenere Cipher',
