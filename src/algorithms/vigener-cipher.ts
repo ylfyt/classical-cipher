@@ -13,19 +13,17 @@ const D = (cj: number, ki: number): number => {
 
 export const vigenereEncrypt = (data: number[], key: number[]): number[] => {
 	const result: number[] = [];
-	const cleanBytes: number[] = [];
-	for (let i = 0; i < data.length; i++) {
-		const element = data[i] - a_ASCII_CODE;
-		if (element >= 0 && element < 26) cleanBytes.push(data[i]);
-	}
 
-	cleanBytes.forEach((val, idx) => {
-		const keyIdx = idx % key.length;
+	let keyCounter = 0;
+	data.forEach((val) => {
 		const pj = val - a_ASCII_CODE;
-		const ki = key[keyIdx] - a_ASCII_CODE;
-		if (ki > 25 || ki < 0) return;
 		if (pj > 25 || pj < 0) return;
 
+		const keyIdx = keyCounter % key.length;
+		const ki = key[keyIdx] - a_ASCII_CODE;
+		if (ki > 25 || ki < 0) return;
+
+		keyCounter++;
 		const e = E(pj, ki);
 		result.push(e + A_ASCII_CODE);
 	});
@@ -35,10 +33,17 @@ export const vigenereEncrypt = (data: number[], key: number[]): number[] => {
 
 export const vigenereDecrypt = (data: number[], key: number[]): number[] => {
 	const result: number[] = [];
-	data.forEach((val, idx) => {
-		const keyIdx = idx % key.length;
+
+	let keyCounter = 0;
+	data.forEach((val) => {
 		const cj = val - A_ASCII_CODE;
+		if (cj > 25 || cj < 0) return;
+
+		const keyIdx = keyCounter % key.length;
 		const ki = key[keyIdx] - a_ASCII_CODE;
+		if (ki > 25 || ki < 0) return;
+
+		keyCounter++;
 		const d = D(cj, ki);
 		result.push(d + a_ASCII_CODE);
 	});
