@@ -22,18 +22,23 @@ app.post('/:action/:alg', (req: Request<any, IResponseDTO, IRequestDTO>, res) =>
 	const cipher = ciphers.get(alg);
 	if (!cipher) return res.status(400).json(getErrorResponse(400, 'Algorithm not found'));
 
-	const key = req.body.key
+	const key = req.body.key;
 	if (!key || key.length === 0) return res.status(400).json(getErrorResponse(400, 'Key is required'));
 
 	const buff = req.file?.buffer;
 	if (!buff || buff.length === 0) return res.status(400).json(getErrorResponse(400, 'Data is required'));
 
-	const data = new Uint8Array(buff!);
+	try {
+		const data = new Uint8Array(buff!);
 
-	const resolver = action === 'encrypt' ? cipher.encrypter : cipher.decrypter;
+		const resolver = action === 'encrypt' ? cipher.encrypter : cipher.decrypter;
 
-	const result = resolver(data, key);
-	res.send(getSuccessResponse(result));
+		const result = resolver(data, key);
+		res.send(getSuccessResponse(result));
+	} catch (error) {
+		const err = error as Error;
+		res.status(400).send(getErrorResponse(400, err.message));
+	}
 });
 
 app.listen(4001, () => {

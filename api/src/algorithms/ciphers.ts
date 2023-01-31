@@ -1,3 +1,4 @@
+import { affineCipherCipherDecrypt, affineCipherCipherEncrypt } from './affine-cipher.js';
 import { autoKeyVigenereDecrypt, autoKeyVigenereEncrypt } from './auto-key-vigenere-cipher.js';
 import { extendedVigenereCipherDecrypt, extendedVigenereCipherEncrypt } from './extended-vigenere-cipher.js';
 import { vigenereDecrypt, vigenereEncrypt } from './vigener-cipher.js';
@@ -27,6 +28,13 @@ export const ciphers = new Map<string, ICipher>([
 		{
 			encrypter: vigenereEncrypt,
 			decrypter: vigenereDecrypt,
+		},
+	],
+	[
+		'affine-cipher',
+		{
+			encrypter: affineCipherCipherEncrypt,
+			decrypter: affineCipherCipherDecrypt,
 		},
 	],
 ]);

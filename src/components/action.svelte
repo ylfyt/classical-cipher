@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { selectedCipher } from '../stores/ciphers';
 	import { dataOutput, isDecrypt, secretKey, strInput, isFromFile, fileInput } from '../stores/data';
+	import { bytesToStr } from '../utils/bytes-to-str';
 	import { strToUtf16Bytes } from '../utils/str-to-16-bytes';
 
 	const BASE_URL = 'http://localhost:4001';
@@ -25,6 +26,10 @@
 				message = result?.message;
 				return;
 			}
+
+			console.log(result.data);
+      console.log(bytesToStr(result.data));
+      
 
 			dataOutput.set(result.data);
 		} catch (error) {
