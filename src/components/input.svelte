@@ -7,14 +7,7 @@
 		(() => {
 			if (!files || files.length === 0) return;
 			const file = files[0];
-			file.arrayBuffer().then((buff) => {
-				const uint8 = new Uint8Array(buff);
-				const data: number[] = [];
-				for (let i = 0; i < uint8.length; i++) {
-					data.push(uint8[i]);
-				}
-				fileInput.set(data);
-			});
+			fileInput.set(file);
 		})();
 	}
 </script>

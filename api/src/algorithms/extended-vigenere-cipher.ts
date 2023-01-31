@@ -8,7 +8,7 @@ const D = (cj: number, ki: number): number => {
 	return mod(cj - ki, 256);
 };
 
-export const extendedVigenereCipherEncrypt = (data: number[], key: number[]): number[] => {
+export const extendedVigenereCipherEncrypt = (data: Uint8Array, key: Uint8Array): number[] => {
 	const result: number[] = [];
 
 	let keyCounter = 0;
@@ -24,7 +24,7 @@ export const extendedVigenereCipherEncrypt = (data: number[], key: number[]): nu
 	return result;
 };
 
-export const extendedVigenereCipherDecrypt = (data: number[], key: number[]): number[] => {
+export const extendedVigenereCipherDecrypt = (data: Uint8Array, key: Uint8Array): number[] => {
 	const result: number[] = [];
 
 	let keyCounter = 0;

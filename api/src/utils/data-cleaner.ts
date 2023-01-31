@@ -1,4 +1,4 @@
-export const dataCleaner = (data: number[], base: number) => {
+export const dataCleaner = (data: Uint8Array, base: number) => {
 	const temp: number[] = [];
 	for (let i = 0; i < data.length; i++) {
 		const char = data[i] - base;

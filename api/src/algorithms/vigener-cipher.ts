@@ -11,7 +11,7 @@ const D = (cj: number, ki: number): number => {
 	return mod(cj - ki, 26);
 };
 
-export const vigenereEncrypt = (data: number[], key: number[]): number[] => {
+export const vigenereEncrypt = (data: Uint8Array, key: Uint8Array): number[] => {
 	const result: number[] = [];
 
 	let keyCounter = 0;
@@ -31,7 +31,7 @@ export const vigenereEncrypt = (data: number[], key: number[]): number[] => {
 	return result;
 };
 
-export const vigenereDecrypt = (data: number[], key: number[]): number[] => {
+export const vigenereDecrypt = (data: Uint8Array, key: Uint8Array): number[] => {
 	const result: number[] = [];
 
 	let keyCounter = 0;

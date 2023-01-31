@@ -1,4 +1,3 @@
 export interface IRequestDTO {
-	key: number[];
-	data: number[];
+	key: string;
 }
