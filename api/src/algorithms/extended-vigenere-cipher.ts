@@ -1,4 +1,5 @@
 import { mod } from '../utils/mod.js';
+import { strToBytes } from '../utils/str-to-bytes.js';
 
 const E = (pj: number, ki: number): number => {
 	return mod(pj + ki, 256);
@@ -8,7 +9,8 @@ const D = (cj: number, ki: number): number => {
 	return mod(cj - ki, 256);
 };
 
-export const extendedVigenereCipherEncrypt = (data: Uint8Array, key: Uint8Array): number[] => {
+export const extendedVigenereCipherEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+	const key = strToBytes(keyStr);
 	const result: number[] = [];
 
 	let keyCounter = 0;
@@ -24,7 +26,8 @@ export const extendedVigenereCipherEncrypt = (data: Uint8Array, key: Uint8Array)
 	return result;
 };
 
-export const extendedVigenereCipherDecrypt = (data: Uint8Array, key: Uint8Array): number[] => {
+export const extendedVigenereCipherDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+	const key = strToBytes(keyStr);
 	const result: number[] = [];
 
 	let keyCounter = 0;

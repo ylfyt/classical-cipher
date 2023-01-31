@@ -10,7 +10,7 @@
 	const run = async () => {
 		try {
 			const formData = new FormData();
-			formData.set('key', JSON.stringify(strToUtf16Bytes($secretKey)));
+			formData.set('key', $secretKey);
 			formData.set('file', $isFromFile ? $fileInput : new Blob([new Uint8Array(strToUtf16Bytes($strInput))]));
 
 			message = 'Loading...';
@@ -20,8 +20,6 @@
 			});
 			const result = await response.json();
 			message = '';
-
-			console.log(response);
 
 			if (!result?.success) {
 				message = result?.message;

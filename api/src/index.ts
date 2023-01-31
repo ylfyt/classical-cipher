@@ -6,7 +6,6 @@ import { ciphers } from './algorithms/ciphers.js';
 import { IRequestDTO } from './dtos/request-dto.js';
 import { IResponseDTO } from './dtos/response-dto.js';
 import { getErrorResponse, getSuccessResponse } from './utils/response-getter.js';
-import { jsonParse } from './utils/json-parse.js';
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -23,8 +22,8 @@ app.post('/:action/:alg', (req: Request<any, IResponseDTO, IRequestDTO>, res) =>
 	const cipher = ciphers.get(alg);
 	if (!cipher) return res.status(400).json(getErrorResponse(400, 'Algorithm not found'));
 
-	const key = new Uint8Array(jsonParse<number[]>(req.body.key) || []);
-	if (key.length === 0) return res.status(400).json(getErrorResponse(400, 'Key is required'));
+	const key = req.body.key
+	if (!key || key.length === 0) return res.status(400).json(getErrorResponse(400, 'Key is required'));
 
 	const buff = req.file?.buffer;
 	if (!buff || buff.length === 0) return res.status(400).json(getErrorResponse(400, 'Data is required'));

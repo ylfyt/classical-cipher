@@ -1,5 +1,6 @@
 import { dataCleaner } from '../utils/data-cleaner.js';
 import { mod } from '../utils/mod.js';
+import { strToBytes } from '../utils/str-to-bytes.js';
 
 const a_ASCII_CODE = 97;
 const A_ASCII_CODE = 65;
@@ -12,7 +13,8 @@ const D = (cj: number, ki: number): number => {
 	return mod(cj - ki, 26);
 };
 
-export const autoKeyVigenereEncrypt = (data: Uint8Array, key: Uint8Array): number[] => {
+export const autoKeyVigenereEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+	const key = new Uint8Array(strToBytes(keyStr));
 	const cleanData = dataCleaner(data, a_ASCII_CODE);
 	const cleanKey = dataCleaner(key, a_ASCII_CODE);
 
@@ -38,7 +40,8 @@ export const autoKeyVigenereEncrypt = (data: Uint8Array, key: Uint8Array): numbe
 	return result;
 };
 
-export const autoKeyVigenereDecrypt = (data: Uint8Array, key: Uint8Array): number[] => {
+export const autoKeyVigenereDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+	const key = new Uint8Array(strToBytes(keyStr));
 	const cleanData = dataCleaner(data, A_ASCII_CODE);
 	const cleanKey = dataCleaner(key, a_ASCII_CODE);
 

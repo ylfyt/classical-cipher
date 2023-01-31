@@ -3,8 +3,8 @@ import { extendedVigenereCipherDecrypt, extendedVigenereCipherEncrypt } from './
 import { vigenereDecrypt, vigenereEncrypt } from './vigener-cipher.js';
 
 export interface ICipher {
-	encrypter: (data: Uint8Array, key: Uint8Array) => number[];
-	decrypter: (data: Uint8Array, key: Uint8Array) => number[];
+	encrypter: (data: Uint8Array, key: string) => number[];
+	decrypter: (data: Uint8Array, key: string) => number[];
 }
 
 export const ciphers = new Map<string, ICipher>([

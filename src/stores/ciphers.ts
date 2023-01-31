@@ -10,6 +10,13 @@ const temp = (data: number[], key: number[]): number[] => {
 
 export const ciphers: ICipher[] = [
 	{
+		name: 'Affine Cipher',
+		label: 'affine-cipher',
+		keyType: 'number',
+		encrypter: temp,
+		decrypter: temp,
+	},
+	{
 		name: 'Extended Vigenere Cipher (256 ASCII)',
 		label: 'extended-vigenere-cipher',
 		keyType: 'text',
@@ -30,13 +37,7 @@ export const ciphers: ICipher[] = [
 		encrypter: vigenereEncrypt,
 		decrypter: vigenereDecrypt,
 	},
-	{
-		name: 'Affine Cipher',
-		label: 'affine-cipher',
-		keyType: 'number',
-		encrypter: temp,
-		decrypter: temp,
-	},
+
 	{
 		name: 'Playfair Cipher',
 		label: 'playfair-cipher',
