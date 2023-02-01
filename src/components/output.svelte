@@ -2,13 +2,13 @@
 	import { dataOutput } from '../stores/data';
 	import { bytesToStr } from '../utils/bytes-to-str';
 
-	let strOutput = $dataOutput.length;
-	$: dataOutput &&
-		(() => {
-			strOutput = $dataOutput.length;
-	})(); 
-  
-  // TODO: OPTIMIZE OUTPUT
+	// let strOutput = $dataOutput.length;
+	// $: dataOutput &&
+	// 	(() => {
+	// 		strOutput = $dataOutput.length;
+	// })();
+
+	// TODO: OPTIMIZE OUTPUT
 
 	const downloadURL = function (data: string, fileName: string) {
 		const a = document.createElement('a');
@@ -39,5 +39,5 @@
 			<button disabled={!$dataOutput || $dataOutput.length === 0} on:click={download} class="bg-green-500 text-white px-4 py-1 rounded-2xl shadow-md disabled:opacity-50">Download as File</button>
 		</div>
 	</div>
-	<div class="border-2 p-2 min-h-[50px] rounded-md break-words">{strOutput}</div>
+	<div class="border-2 p-2 min-h-[50px] rounded-md break-words">{bytesToStr($dataOutput)}</div>
 </div>

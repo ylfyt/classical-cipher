@@ -10,6 +10,13 @@ const temp = (data: number[], key: number[]): number[] => {
 
 export const ciphers: ICipher[] = [
 	{
+		name: 'Hill Cipher',
+		label: 'hill-cipher',
+		keyType: 'matrix',
+		encrypter: temp,
+		decrypter: temp,
+	},
+	{
 		name: 'Affine Cipher',
 		label: 'affine-cipher',
 		keyType: 'number',
@@ -41,13 +48,6 @@ export const ciphers: ICipher[] = [
 	{
 		name: 'Playfair Cipher',
 		label: 'playfair-cipher',
-		keyType: 'matrix',
-		encrypter: temp,
-		decrypter: temp,
-	},
-	{
-		name: 'Hill Cipher',
-		label: 'hill-cipher',
 		keyType: 'matrix',
 		encrypter: temp,
 		decrypter: temp,
