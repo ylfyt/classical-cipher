@@ -1,3 +1,4 @@
+import { isAlphabet, toLower } from '../utils/ascii.js';
 import { strToBytes } from '../utils/str-to-bytes.js';
 
 /**
@@ -75,8 +76,8 @@ const findElementOnMatrix = (element: number, matrix: number[][]): number[] | un
 };
 
 export const playfairCipherEncrypt = (data: Uint8Array, keyStr: string): number[] => {
-	keyStr = keyStr.split(' ').join('');
-	data = data.filter((val) => val - a_ASCII_CODE >= 0 && val - a_ASCII_CODE < 26);
+	keyStr = keyStr.split(' ').join('').toLowerCase();
+	data = data.filter((val) => isAlphabet(val));
 
 	const bigramArray = generateBigram(data);
 	const keyMatrix = generateKeyMatrix(strToBytes(keyStr));
@@ -84,7 +85,8 @@ export const playfairCipherEncrypt = (data: Uint8Array, keyStr: string): number[
 	const result: number[] = [];
 
 	for (let i = 0; i < bigramArray.length; i++) {
-		const bigram = bigramArray[i];
+		let bigram = bigramArray[i];
+		bigram = [toLower(bigram[0]), toLower(bigram[1])];
 
 		const xLoc = findElementOnMatrix(bigram[0], keyMatrix)!;
 		const yLoc = findElementOnMatrix(bigram[1], keyMatrix)!;
@@ -111,8 +113,8 @@ export const playfairCipherEncrypt = (data: Uint8Array, keyStr: string): number[
 };
 
 export const playfairCipherDecrypt = (data: Uint8Array, keyStr: string): number[] => {
-	keyStr = keyStr.split(' ').join('');
-	data = data.filter((val) => val - a_ASCII_CODE >= 0 && val - a_ASCII_CODE < 26);
+	keyStr = keyStr.split(' ').join('').toLowerCase();
+	data = data.filter((val) => isAlphabet(val));
 
 	const bigramArray = generateBigram(data);
 	const keyMatrix = generateKeyMatrix(strToBytes(keyStr));
@@ -120,7 +122,8 @@ export const playfairCipherDecrypt = (data: Uint8Array, keyStr: string): number[
 	const result: number[] = [];
 
 	for (let i = 0; i < bigramArray.length; i++) {
-		const bigram = bigramArray[i];
+		let bigram = bigramArray[i];
+		bigram = [toLower(bigram[0]), toLower(bigram[1])];
 
 		const xLoc = findElementOnMatrix(bigram[0], keyMatrix)!;
 		const yLoc = findElementOnMatrix(bigram[1], keyMatrix)!;

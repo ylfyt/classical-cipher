@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { dataOutput } from '../stores/data';
+	import { dataOutput, isDecrypt } from '../stores/data';
 	import { bytesToStr } from '../utils/bytes-to-str';
 
 	// let strOutput = $dataOutput.length;
@@ -39,5 +39,5 @@
 			<button disabled={!$dataOutput || $dataOutput.length === 0} on:click={download} class="bg-green-500 text-white px-4 py-1 rounded-2xl shadow-md disabled:opacity-50">Download as File</button>
 		</div>
 	</div>
-	<div class="border-2 p-2 min-h-[50px] rounded-md break-words">{bytesToStr($dataOutput)}</div>
+	<div class={`border-2 p-2 min-h-[50px] rounded-md break-words ${$isDecrypt ? 'lowercase': 'uppercase'}`}>{bytesToStr($dataOutput)}</div>
 </div>

@@ -1,10 +1,11 @@
-export const dataCleaner = (data: Uint8Array, base: number) => {
+import { isAlphabet } from './ascii.js';
+
+export const dataCleaner = (data: Uint8Array) => {
 	const temp: number[] = [];
 	for (let i = 0; i < data.length; i++) {
-		const char = data[i] - base;
-		if (char < 26 && char >= 0) {
-			temp.push(char + base);
-		}
+		if (!isAlphabet(data[i])) continue;
+
+		temp.push(data[i]);
 	}
 	return temp;
 };

@@ -10,7 +10,7 @@ const D = (cj: number, ki: number): number => {
 };
 
 export const extendedVigenereCipherEncrypt = (data: Uint8Array, keyStr: string): number[] => {
-	const key = strToBytes(keyStr);
+	const key = strToBytes(keyStr.toLowerCase());
 	const result: number[] = [];
 
 	let keyCounter = 0;
@@ -27,7 +27,7 @@ export const extendedVigenereCipherEncrypt = (data: Uint8Array, keyStr: string):
 };
 
 export const extendedVigenereCipherDecrypt = (data: Uint8Array, keyStr: string): number[] => {
-	const key = strToBytes(keyStr);
+	const key = strToBytes(keyStr.toLowerCase());
 	const result: number[] = [];
 
 	let keyCounter = 0;

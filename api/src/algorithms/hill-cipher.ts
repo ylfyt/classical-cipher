@@ -1,5 +1,6 @@
 import { matrix, det, gcd, mod as mathMod, transpose } from 'mathjs';
 import { mod } from '../utils/mod.js';
+import { isAlphabet, toLower } from '../utils/ascii.js';
 
 const a_ASCII_CODE = 97;
 const A_ASCII_CODE = 65;
@@ -83,7 +84,7 @@ export const hillCipherEncrypt = (data: Uint8Array, keyStr: string): number[] =>
 	// check can be inversed or not
 	if (gcd(determinant, 26) != 1) throw new Error('Matrix key cannot be inversed');
 
-	data = data.filter((val) => val - a_ASCII_CODE >= 0 && val - a_ASCII_CODE < 26);
+	data = data.filter((val) => isAlphabet(val));
 
 	if (mod(data.length, size) !== 0) {
 		const temp = [];
@@ -99,9 +100,9 @@ export const hillCipherEncrypt = (data: Uint8Array, keyStr: string): number[] =>
 	data.forEach(() => {
 		const sectionNum = Math.floor(plainCounter / size);
 		const matrixRow = mod(plainCounter, size);
-		const sum = matrices[matrixRow].reduce((prev, val, idx) => prev + val * (data[sectionNum * size + idx] - a_ASCII_CODE), 0);
+		const sum = matrices[matrixRow].reduce((prev, val, idx) => prev + val * (toLower(data[sectionNum * size + idx]) - a_ASCII_CODE), 0);
 		const e = mod(sum, 26);
-		result.push(e + A_ASCII_CODE);
+		result.push(e + a_ASCII_CODE);
 		plainCounter++;
 	});
 
@@ -124,13 +125,11 @@ export const hillCipherDecrypt = (data: Uint8Array, keyStr: string): number[] =>
 	const inversedMatrix = inverse(mat, size);
 	if (!inversedMatrix) throw new Error('Matrix key cannot be inversed');
 
-	console.log(inversedMatrix);
-
-	data = data.filter((val) => val - A_ASCII_CODE >= 0 && val - A_ASCII_CODE < 26);
+	data = data.filter((val) => isAlphabet(val));
 	if (mod(data.length, size) !== 0) {
 		const temp = [];
 		for (let i = 0; i < size - mod(data.length, size); i++) {
-			temp.push('Z'.charCodeAt(0));
+			temp.push('z'.charCodeAt(0));
 		}
 		data = new Uint8Array([...data, ...temp]);
 	}
@@ -141,7 +140,7 @@ export const hillCipherDecrypt = (data: Uint8Array, keyStr: string): number[] =>
 	data.forEach(() => {
 		const sectionNum = Math.floor(plainCounter / size);
 		const matrixRow = mod(plainCounter, size);
-		const sum = inversedMatrix[matrixRow].reduce((prev, val, idx) => prev + val * (data[sectionNum * size + idx] - A_ASCII_CODE), 0);
+		const sum = inversedMatrix[matrixRow].reduce((prev, val, idx) => prev + val * (toLower(data[sectionNum * size + idx]) - a_ASCII_CODE), 0);
 		const e = mod(sum, 26);
 		result.push(e + a_ASCII_CODE);
 		plainCounter++;

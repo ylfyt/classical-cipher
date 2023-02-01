@@ -1,3 +1,4 @@
+import { toLower } from '../utils/ascii.js';
 import { mod } from '../utils/mod.js';
 
 const a_ASCII_CODE = 97;
@@ -21,11 +22,12 @@ export const affineCipherCipherEncrypt = (data: Uint8Array, keyStr: string): num
 	const result: number[] = [];
 
 	data.forEach((val) => {
+		val = toLower(val);
 		const pj = val - a_ASCII_CODE;
 		if (pj > 25 || pj < 0) return;
 
 		const e = E(pj, keyM, keyB);
-		result.push(e + A_ASCII_CODE);
+		result.push(e + a_ASCII_CODE);
 	});
 
 	return result;
@@ -51,10 +53,10 @@ export const affineCipherCipherDecrypt = (data: Uint8Array, keyStr: string): num
 	const result: number[] = [];
 
 	const mi = inverse(keyM, 26);
-	console.log('inverse', mi);
 
 	data.forEach((val) => {
-		const cj = val - A_ASCII_CODE;
+		val = toLower(val);
+		const cj = val - a_ASCII_CODE;
 		if (cj > 25 || cj < 0) return;
 
 		const d = D(cj, mi, keyB);
