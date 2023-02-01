@@ -1,7 +1,7 @@
 import { affineCipherCipherDecrypt, affineCipherCipherEncrypt } from './affine-cipher.js';
 import { autoKeyVigenereDecrypt, autoKeyVigenereEncrypt } from './auto-key-vigenere-cipher.js';
 import { extendedVigenereCipherDecrypt, extendedVigenereCipherEncrypt } from './extended-vigenere-cipher.js';
-import { hillCipherEncrypt } from './hill-cipher.js';
+import { hillCipherDecrypt, hillCipherEncrypt } from './hill-cipher.js';
 import { vigenereDecrypt, vigenereEncrypt } from './vigener-cipher.js';
 
 export interface ICipher {
@@ -42,9 +42,7 @@ export const ciphers = new Map<string, ICipher>([
 		'hill-cipher',
 		{
 			encrypter: hillCipherEncrypt,
-			decrypter(data, key) {
-				throw new Error('Not implemented yet');
-			},
+			decrypter: hillCipherDecrypt,
 		},
 	],
 ]);

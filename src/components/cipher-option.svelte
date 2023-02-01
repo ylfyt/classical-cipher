@@ -16,6 +16,7 @@
 
 <div class="flex gap-10">
 	<select
+    class="rounded-md px-2"
 		bind:value={selected}
 		on:change={() => {
 			const cipher = ciphers.find((ch) => ch.label === selected);
