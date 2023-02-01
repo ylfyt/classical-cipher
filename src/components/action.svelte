@@ -25,11 +25,7 @@
 			if (!result?.success) {
 				message = result?.message;
 				return;
-			}
-
-			console.log(result.data);
-      console.log(bytesToStr(result.data));
-      
+			}    
 
 			dataOutput.set(result.data);
 		} catch (error) {
