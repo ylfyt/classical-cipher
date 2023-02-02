@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { dataOutput, fileInput, isDecrypt, isFromFile, strInput } from '../stores/data';
+	import { bytesToStr } from '../utils/bytes-to-str';
 
 	let files: FileList;
 
@@ -27,10 +28,8 @@
 				file,
 				isText: true,
 			});
-			let i = 0;
-			while (preview.length < 10000 && i < data.length) {
-				preview += String.fromCharCode(data[i++]);
-			}
+
+			preview = bytesToStr(Array.from(data.slice(0, 10000)));
 		};
 		fr.readAsArrayBuffer(file);
 	}
@@ -44,7 +43,7 @@
 				isFromFile.set(false);
 				strInput.set('');
 				fileInput.set(undefined);
-        dataOutput.set([])
+				dataOutput.set([]);
 				files = undefined;
 			}}>Text</button
 		>
@@ -54,18 +53,18 @@
 				isFromFile.set(true);
 				strInput.set('');
 				fileInput.set(undefined);
-        dataOutput.set([])
+				dataOutput.set([]);
 				files = undefined;
 			}}>File</button
 		>
 	</div>
 	<div class="flex flex-col gap-4">
 		{#if !$isFromFile}
-			<textarea class={`w-full p-2 rounded-md ${$isDecrypt ? 'uppercase' : 'lowercase'}`} rows="5" placeholder="text" bind:value={$strInput} />
+			<textarea class={`w-full p-2 rounded-md ${$isDecrypt ? 'uppercase' : 'lowercase'}`} rows="8" placeholder="text" bind:value={$strInput} />
 		{:else}
 			<input bind:files class="bg-white file:rounded-md file:bg-gray-300 hover:file:bg-gray-400 w-full p-2 rounded-md" type="file" />
 			{#if $fileInput?.isText}
-				<textarea disabled class={`w-full p-2 rounded-md`} rows="5" placeholder="text">{preview}</textarea>
+				<textarea disabled class={`w-full p-2 rounded-md ${$isDecrypt ? 'uppercase' : ''}`} rows="5" placeholder="text">{preview}</textarea>
 			{/if}
 		{/if}
 	</div>
