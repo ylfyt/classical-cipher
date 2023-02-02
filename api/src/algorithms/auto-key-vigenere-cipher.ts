@@ -50,7 +50,7 @@ export const autoKeyVigenereDecrypt = (data: Uint8Array, keyStr: string): number
 
 	let keyCounter = 0;
 	cleanData.forEach((val) => {
-		const cj = val - a_ASCII_CODE;
+		const cj = toLower(val) - a_ASCII_CODE;
 
 		let ki: number;
 		if (keyCounter >= cleanKey.length) {

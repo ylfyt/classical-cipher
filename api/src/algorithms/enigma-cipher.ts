@@ -23,7 +23,7 @@ const getRotors = (key: number[]): number[][] => {
 };
 
 export const enigmaEncrypt = (data: Uint8Array, keyStr: string): number[] => {
-	const key = strToBytes(keyStr.toLowerCase());
+	const key = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	const rotors = getRotors(key);
 	const cleanData = dataCleaner(data);
 
@@ -49,7 +49,7 @@ export const enigmaEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 };
 
 export const enigmaDecrypt = (data: Uint8Array, keyStr: string): number[] => {
-	const key = strToBytes(keyStr.toLowerCase());
+	const key = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	const rotors = getRotors(key);
 	const cleanData = dataCleaner(data);
 

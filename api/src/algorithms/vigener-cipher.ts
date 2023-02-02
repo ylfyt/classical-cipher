@@ -1,4 +1,5 @@
 import { toLower } from '../utils/ascii.js';
+import { dataCleaner } from '../utils/data-cleaner.js';
 import { mod } from '../utils/mod.js';
 import { strToBytes } from '../utils/str-to-bytes.js';
 
@@ -13,12 +14,12 @@ const D = (cj: number, ki: number): number => {
 };
 
 export const vigenereEncrypt = (data: Uint8Array, keyStr: string): number[] => {
-	const key = strToBytes(keyStr.toLowerCase());
+	const key = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	const result: number[] = [];
 
 	let keyCounter = 0;
 	data.forEach((val) => {
-		val = toLower(val);  
+		val = toLower(val);
 		const pj = val - a_ASCII_CODE;
 		if (pj > 25 || pj < 0) return;
 
@@ -35,7 +36,7 @@ export const vigenereEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 };
 
 export const vigenereDecrypt = (data: Uint8Array, keyStr: string): number[] => {
-	const key = strToBytes(keyStr.toLowerCase());
+	const key = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	const result: number[] = [];
 
 	let keyCounter = 0;

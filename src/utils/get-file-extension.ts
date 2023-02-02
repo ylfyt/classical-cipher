@@ -13,7 +13,7 @@ export const getFileNameInfo = (
 
 	const ext = data.pop();
 	return {
-		extension: data.join('.'),
-		filename: '.' + ext,
+		extension: '.' + ext,
+		filename: data.join('.'),
 	};
 };
