@@ -1,9 +1,9 @@
-import { affineCipherCipherDecrypt, affineCipherCipherEncrypt } from './affine-cipher.js';
+import { affineDecrypt, affineEncrypt } from './affine-cipher.js';
 import { autoKeyVigenereDecrypt, autoKeyVigenereEncrypt } from './auto-key-vigenere-cipher.js';
 import { enigmaDecrypt, enigmaEncrypt } from './enigma-cipher.js';
-import { extendedVigenereCipherDecrypt, extendedVigenereCipherEncrypt } from './extended-vigenere-cipher.js';
-import { hillCipherDecrypt, hillCipherEncrypt } from './hill-cipher.js';
-import { playfairCipherDecrypt, playfairCipherEncrypt } from './playfair-cipher.js';
+import { extendedVigenereDecrypt, extendedVigenereEncrypt } from './extended-vigenere-cipher.js';
+import { hillDecrypt, hillEncrypt } from './hill-cipher.js';
+import { playfairDecrypt, playfairEncrypt } from './playfair-cipher.js';
 import { vigenereDecrypt, vigenereEncrypt } from './vigener-cipher.js';
 
 export interface ICipher {
@@ -15,8 +15,8 @@ export const ciphers = new Map<string, ICipher>([
 	[
 		'extended-vigenere-cipher',
 		{
-			encrypter: extendedVigenereCipherEncrypt,
-			decrypter: extendedVigenereCipherDecrypt,
+			encrypter: extendedVigenereEncrypt,
+			decrypter: extendedVigenereDecrypt,
 		},
 	],
 	[
@@ -36,22 +36,22 @@ export const ciphers = new Map<string, ICipher>([
 	[
 		'affine-cipher',
 		{
-			encrypter: affineCipherCipherEncrypt,
-			decrypter: affineCipherCipherDecrypt,
+			encrypter: affineEncrypt,
+			decrypter: affineDecrypt,
 		},
 	],
 	[
 		'hill-cipher',
 		{
-			encrypter: hillCipherEncrypt,
-			decrypter: hillCipherDecrypt,
+			encrypter: hillEncrypt,
+			decrypter: hillDecrypt,
 		},
 	],
 	[
 		'playfair-cipher',
 		{
-			encrypter: playfairCipherEncrypt,
-			decrypter: playfairCipherDecrypt,
+			encrypter: playfairEncrypt,
+			decrypter: playfairDecrypt,
 		},
 	],
 	[

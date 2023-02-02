@@ -13,6 +13,7 @@
 			formData.set('key', $secretKey);
 			formData.set('file', $isFromFile ? $fileInput?.file : new Blob([new Uint8Array(strToUtf16Bytes($strInput))]));
 
+			dataOutput.set([]);
 			message = 'Loading...';
 			const response = await fetch(`${BASE_URL}/${$isDecrypt ? 'decrypt' : 'encrypt'}/${$selectedCipher.label}`, {
 				method: 'POST',
@@ -24,7 +25,7 @@
 			if (!result?.success) {
 				message = result?.message;
 				return;
-			}    
+			}
 
 			dataOutput.set(result.data);
 		} catch (error) {
@@ -42,7 +43,7 @@
       ${$secretKey.length === 0 || ($isFromFile ? !$fileInput?.file : $strInput.length === 0) ? 'opacity-50' : 'hover:bg-gray-500'}
     `}>RUN</button
 	>
-	<div class="text-xl">
+	<div class="text-lg">
 		{message}
 	</div>
 </div>

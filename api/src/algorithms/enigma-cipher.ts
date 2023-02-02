@@ -1,7 +1,7 @@
 import { toLower } from '../utils/ascii.js';
 import { dataCleaner } from '../utils/data-cleaner.js';
 import { strToBytes } from '../utils/str-to-bytes.js';
-import { affineCipherCipherEncrypt } from './affine-cipher.js';
+import { affineEncrypt } from './affine-cipher.js';
 
 const a_ASCII_CODE = 97;
 const CHAR_SIZE = 26;
@@ -10,7 +10,7 @@ const getRotors = (key: number[]): number[][] => {
 	const alphabet = new Uint8Array(strToBytes('abcdefghijklmnopqrstuvwxyz'));
 	const rotors: number[][] = [];
 	key.forEach((val, idx) => {
-		const temp = affineCipherCipherEncrypt(alphabet, `7|${idx}`);
+		const temp = affineEncrypt(alphabet, `7|${idx}`);
 		const delta = temp.indexOf(val);
 		for (let i = 0; i < delta; i++) {
 			const first = temp.shift();

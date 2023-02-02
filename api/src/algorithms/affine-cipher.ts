@@ -1,5 +1,6 @@
 import { toLower } from '../utils/ascii.js';
 import { mod } from '../utils/mod.js';
+import { gcd } from 'mathjs';
 
 const a_ASCII_CODE = 97;
 const A_ASCII_CODE = 65;
@@ -12,12 +13,14 @@ const D = (cj: number, mi: number, kb: number): number => {
 	return mod(mi * (cj - kb), 26);
 };
 
-export const affineCipherCipherEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const affineEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 	const keyData = keyStr.split('|');
 	if (keyData.length !== 2) throw new Error('Key should be 2 number');
 	const keyM = parseInt(keyData[0]);
 	const keyB = parseInt(keyData[1]);
 	if (Number.isNaN(keyM) || Number.isNaN(keyB)) throw new Error('Key is not valid');
+
+	if (gcd(keyM, 26) !== 1) throw new Error('Key M should be a relative prime with a value of 26');
 
 	const result: number[] = [];
 
@@ -43,12 +46,14 @@ const inverse = (a: number, b: number) => {
 	return -1;
 };
 
-export const affineCipherCipherDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const affineDecrypt = (data: Uint8Array, keyStr: string): number[] => {
 	const keyData = keyStr.split('|');
 	if (keyData.length !== 2) throw new Error('Key should be 2 number');
 	const keyM = parseInt(keyData[0]);
 	const keyB = parseInt(keyData[1]);
 	if (!keyM || !keyB) throw new Error('Key is not valid');
+
+	if (gcd(keyM, 26) !== 1) throw new Error('Key M should be a relative prime with a value of 26');
 
 	const result: number[] = [];
 
