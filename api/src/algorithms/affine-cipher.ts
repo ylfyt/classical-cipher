@@ -17,7 +17,7 @@ export const affineCipherCipherEncrypt = (data: Uint8Array, keyStr: string): num
 	if (keyData.length !== 2) throw new Error('Key should be 2 number');
 	const keyM = parseInt(keyData[0]);
 	const keyB = parseInt(keyData[1]);
-	if (!keyM || !keyB) throw new Error('Key is not valid');
+	if (Number.isNaN(keyM) || Number.isNaN(keyB)) throw new Error('Key is not valid');
 
 	const result: number[] = [];
 

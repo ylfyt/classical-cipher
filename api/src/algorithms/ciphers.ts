@@ -1,5 +1,6 @@
 import { affineCipherCipherDecrypt, affineCipherCipherEncrypt } from './affine-cipher.js';
 import { autoKeyVigenereDecrypt, autoKeyVigenereEncrypt } from './auto-key-vigenere-cipher.js';
+import { enigmaDecrypt, enigmaEncrypt } from './enigma-cipher.js';
 import { extendedVigenereCipherDecrypt, extendedVigenereCipherEncrypt } from './extended-vigenere-cipher.js';
 import { hillCipherDecrypt, hillCipherEncrypt } from './hill-cipher.js';
 import { playfairCipherDecrypt, playfairCipherEncrypt } from './playfair-cipher.js';
@@ -51,6 +52,13 @@ export const ciphers = new Map<string, ICipher>([
 		{
 			encrypter: playfairCipherEncrypt,
 			decrypter: playfairCipherDecrypt,
+		},
+	],
+	[
+		'enigma-cipher',
+		{
+			encrypter: enigmaEncrypt,
+			decrypter: enigmaDecrypt,
 		},
 	],
 ]);
