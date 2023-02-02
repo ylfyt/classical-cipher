@@ -5,7 +5,13 @@ export const secretKey = writable<string>('');
 export const isDecrypt = writable<boolean>(false);
 export const strInput = writable<string>('');
 export const isFromFile = writable<boolean>(false);
-export const fileInput = writable<File | undefined>();
+export const fileInput = writable<
+	| {
+			file: File;
+			isText: boolean;
+	  }
+	| undefined
+>();
 
 export const resetState = () => {
 	dataOutput.set([]);
