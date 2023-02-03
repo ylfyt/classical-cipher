@@ -5,12 +5,15 @@ export const getFileNameInfo = (
 	extension: string;
 } => {
 	const data = filename.split('.');
-	let temp: string = '';
-	for (let i = 0; i < data.length - 1; i++) {
-		temp += data[i];
-	}
+	if (data.length < 2)
+		return {
+			filename: data[0] ?? '',
+			extension: '',
+		};
+
+	const ext = data.pop();
 	return {
-		extension: data[data.length - 1] ?? '',
-		filename: temp,
+		extension: '.' + ext,
+		filename: data.join('.'),
 	};
 };

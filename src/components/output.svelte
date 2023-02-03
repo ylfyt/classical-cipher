@@ -6,9 +6,25 @@
 
 	let strOutput: string = '';
 	let isSeparated: boolean = false;
+	let isText: boolean | null = null;
+
+	$: (() => {
+		if ($dataOutput.length === 0) {
+			isText = null;
+			return;
+		}
+		for (const byte of $dataOutput) {
+			if (byte > 127) {
+				isText = false;
+				return;
+			}
+		}
+		isText = true;
+	})();
+
 	$: if ($dataOutput) {
 		strOutput = '';
-		if ($dataOutput.length !== 0) {
+		if ($dataOutput.length !== 0 && isText) {
 			let i = 0;
 			while (strOutput.length < 10000 && i < $dataOutput.length) {
 				strOutput += String.fromCharCode($dataOutput[i++]);
@@ -39,8 +55,8 @@
 
 		let filename = `${$selectedCipher.label}-${$isDecrypt ? 'decrypted' : 'encrypted'}.txt`;
 		if ($isFromFile) {
-			const fileInfo = getFileNameInfo($fileInput?.name);
-			filename = `${fileInfo.filename}-${$isDecrypt ? 'decrypted' : 'encrypted'}.${fileInfo.extension}`;
+			const fileInfo = getFileNameInfo($fileInput?.file.name);
+			filename = `${fileInfo.filename}-${$isDecrypt ? 'decrypted' : 'encrypted'}${fileInfo.extension}`;
 		}
 
 		const blob = new Blob([data as BlobPart], {});
@@ -71,11 +87,24 @@
 				<input bind:checked={isSeparated} type="checkbox" />
 				<label for="">Separated by 5 Char</label>
 			</div>
-			<button disabled={!$dataOutput || $dataOutput.length === 0} on:click={download} class="bg-green-500 text-white px-4 py-1 rounded-2xl shadow-sm disabled:opacity-50">Download as File</button>
-			<button disabled={!$dataOutput || $dataOutput.length === 0} on:click={copyToClipboard} class="bg-gray-500 text-white px-4 py-1 rounded-2xl shadow-sm disabled:opacity-50"
-				>Copy to Clipboard</button
+			<button disabled={!$dataOutput || $dataOutput.length === 0} on:click={download} class="bg-green-500 text-white px-4 py-1 rounded-2xl shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+				>Download as File</button
+			>
+			<button
+				disabled={!$dataOutput || $dataOutput.length === 0 || !isText}
+				on:click={copyToClipboard}
+				class="bg-gray-500 text-white px-4 py-1 rounded-2xl shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">Copy to Clipboard</button
 			>
 		</div>
 	</div>
-	<div class={`border-2 p-2 min-h-[50px] rounded-md break-words ${$isDecrypt ? 'lowercase' : 'uppercase'}`}>{strOutput}</div>
+
+	{#if $dataOutput.length !== 0 && isText === false}
+		<div class="border-2 p-2 min-h-[50px] rounded-md flex items-center">
+			<div class="bg-red-300 text-center w-3/4 mx-auto">Output is a binary file. Please download it!</div>
+		</div>
+	{:else}
+		<div class={`border-2 p-2 min-h-[50px] rounded-md break-words ${$isDecrypt ? 'lowercase' : 'uppercase'}`}>
+			{strOutput}
+		</div>
+	{/if}
 </div>

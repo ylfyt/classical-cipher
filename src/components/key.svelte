@@ -37,3 +37,12 @@
 		<input bind:value={$secretKey} class="p-2 rounded-md" placeholder="Key..." type="text" />
 	{/if}
 </div>
+
+<style>
+	/* Chrome, Safari, Edge, Opera */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+</style>

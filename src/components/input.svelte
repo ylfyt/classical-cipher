@@ -1,14 +1,37 @@
 <script lang="ts">
-	import { fileInput, isDecrypt, isFromFile, strInput } from '../stores/data';
+	import { dataOutput, fileInput, isDecrypt, isFromFile, strInput } from '../stores/data';
+	import { bytesToStr } from '../utils/bytes-to-str';
 
 	let files: FileList;
 
-	$: {
-		(() => {
-			if (!files || files.length === 0) return;
-			const file = files[0];
-			fileInput.set(file);
-		})();
+	let preview: string = '';
+
+	$: if (files && files.length !== 0) {
+		const file = files[0];
+		const fr = new FileReader();
+		fr.onload = (e) => {
+			preview = '';
+			if (!e.target.result) return;
+			const data = new Uint8Array(e.target.result as ArrayBuffer);
+
+			for (const byte of data) {
+				if (byte > 127) {
+					preview = '';
+					fileInput.set({
+						file,
+						isText: false,
+					});
+					return;
+				}
+			}
+			fileInput.set({
+				file,
+				isText: true,
+			});
+
+			preview = bytesToStr(Array.from(data.slice(0, 10000)));
+		};
+		fr.readAsArrayBuffer(file);
 	}
 </script>
 
@@ -19,6 +42,8 @@
 			on:click={() => {
 				isFromFile.set(false);
 				strInput.set('');
+				fileInput.set(undefined);
+				dataOutput.set([]);
 				files = undefined;
 			}}>Text</button
 		>
@@ -27,15 +52,20 @@
 			on:click={() => {
 				isFromFile.set(true);
 				strInput.set('');
+				fileInput.set(undefined);
+				dataOutput.set([]);
 				files = undefined;
 			}}>File</button
 		>
 	</div>
-	<div class="">
+	<div class="flex flex-col gap-4">
 		{#if !$isFromFile}
-			<textarea class={`w-full p-2 rounded-md ${$isDecrypt ? 'uppercase' : 'lowercase'}`} rows="5" placeholder="text" bind:value={$strInput} />
+			<textarea class={`w-full p-2 rounded-md ${$isDecrypt ? 'uppercase' : 'lowercase'}`} rows="8" placeholder="text" bind:value={$strInput} />
 		{:else}
-			<input bind:files class="bg-white file:rounded-md file:bg-gray-300 hover:file:bg-gray-600 w-full p-2 rounded-md" type="file" />
+			<input bind:files class="bg-white file:rounded-md file:bg-gray-300 hover:file:bg-gray-400 w-full p-2 rounded-md" type="file" />
+			{#if $fileInput?.isText}
+				<textarea disabled class={`w-full p-2 rounded-md ${$isDecrypt ? 'uppercase' : ''}`} rows="5" placeholder="text">{preview}</textarea>
+			{/if}
 		{/if}
 	</div>
 </div>
@@ -45,7 +75,7 @@
 		margin-right: 20px;
 		border: none;
 		padding: 10px 20px;
-		color: #fff;
+		color: black;
 		cursor: pointer;
 	}
 </style>

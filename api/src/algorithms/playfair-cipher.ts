@@ -1,4 +1,5 @@
 import { isAlphabet, toLower } from '../utils/ascii.js';
+import { dataCleaner } from '../utils/data-cleaner.js';
 import { strToBytes } from '../utils/str-to-bytes.js';
 
 /**
@@ -75,12 +76,12 @@ const findElementOnMatrix = (element: number, matrix: number[][]): number[] | un
 	}
 };
 
-export const playfairCipherEncrypt = (data: Uint8Array, keyStr: string): number[] => {
-	keyStr = keyStr.split(' ').join('').toLowerCase();
+export const playfairEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+	const cleanKey = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	data = data.filter((val) => isAlphabet(val));
 
 	const bigramArray = generateBigram(data);
-	const keyMatrix = generateKeyMatrix(strToBytes(keyStr));
+	const keyMatrix = generateKeyMatrix(cleanKey);
 
 	const result: number[] = [];
 
@@ -112,12 +113,12 @@ export const playfairCipherEncrypt = (data: Uint8Array, keyStr: string): number[
 	return result;
 };
 
-export const playfairCipherDecrypt = (data: Uint8Array, keyStr: string): number[] => {
-	keyStr = keyStr.split(' ').join('').toLowerCase();
+export const playfairDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+	const cleanKey = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	data = data.filter((val) => isAlphabet(val));
 
 	const bigramArray = generateBigram(data);
-	const keyMatrix = generateKeyMatrix(strToBytes(keyStr));
+	const keyMatrix = generateKeyMatrix(cleanKey);
 
 	const result: number[] = [];
 
