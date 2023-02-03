@@ -22,15 +22,16 @@ export const initAget = () => {
 			tmpResponse = undefined;
 			return;
 		}
-		if (!res.success) {
-			console.log(`Get response ${res.id}`);
-			const resolve = resolvers.get(res.id);
-			resolve(res);
-			resolvers.delete(res.id);
+		if (res.success) {
+			tmpResponse = res;
+			console.log(`New response ${res.id}, waiting for data...`);
 			return;
 		}
-		tmpResponse = res;
-		console.log(`New response ${res.id}, waiting for data...`);
+
+		console.log(`Get response ${res.id}`);
+		const resolve = resolvers.get(res.id);
+		resolve(res);
+		resolvers.delete(res.id);
 	};
 };
 
