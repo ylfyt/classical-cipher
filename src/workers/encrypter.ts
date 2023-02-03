@@ -1,39 +1,15 @@
 import { ciphers } from '../algorithms/ciphers';
+import type { ICryptoRequest } from '../interfaces/crypto-request';
+import type { ICryptoResponse } from '../interfaces/crypto-response';
 
-interface IRequest {
-	id: string;
-	keyStr: string;
-	algorithm: string;
-	action: 'encrypt' | 'decrypt';
-	file: Uint8Array;
-}
-
-interface IResponse {
-	id: string;
-	success: boolean;
-	message: string;
-	data?: number[];
-}
-
-const run = (payload: { id: string; data: string }) => {
-	const start = new Date().getTime();
-	let i = 0;
-	while (i < 10_000_000_000) {
-		i++;
-	}
-	const time = new Date().getTime() - start;
-
-	return `${payload.data} | ${time}`;
-};
-
-self.onmessage = (e: MessageEvent<IRequest>) => {
+self.onmessage = (e: MessageEvent<ICryptoRequest>) => {
 	console.log('New Request', e.data.id);
 
 	const res = handler(e.data);
 	self.postMessage(res);
 };
 
-const handler = (req: IRequest): IResponse => {
+const handler = (req: ICryptoRequest): ICryptoResponse => {
 	const action = req.action;
 	if (action !== 'encrypt' && action !== 'decrypt')
 		return {
@@ -51,7 +27,7 @@ const handler = (req: IRequest): IResponse => {
 			message: 'Algorithm not found',
 		};
 
-	const key = req.keyStr;
+	const key = req.key;
 	if (!key || key.length === 0)
 		return {
 			id: req.id,
@@ -59,7 +35,7 @@ const handler = (req: IRequest): IResponse => {
 			message: 'Key is required',
 		};
 
-	const data = req.file;
+	const data = req.data;
 	if (!data || data.length === 0)
 		return {
 			id: req.id,

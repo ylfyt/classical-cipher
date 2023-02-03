@@ -1,61 +1,36 @@
-interface IPayload {
-	keyStr: string;
-	algorithm: string;
-	file: Uint8Array;
-}
+import type { ICryptoPayload } from '../interfaces/crypto-payload';
+import type { ICryptoResponse } from '../interfaces/crypto-response';
 
-interface IResponse {
-	id: string;
-	success: boolean;
-	message: string;
-	data?: number[];
-}
-
-interface IResolver {
-	[key: string]: (res: IResponse) => void;
-}
-
-const resolver: IResolver = {};
+let resolvers: Map<number, (res: ICryptoResponse) => void>;
 
 let worker: Worker;
 
-const encrypt = (payload: IPayload): Promise<IResponse> => {
-	return new Promise((resolve) => {
-		const id = new Date().getTime();
-		resolver[id.toString()] = resolve;
-		worker.postMessage({
-			...payload,
-			action: 'encrypt',
-			id,
-		});
-	});
-};
-
-const decrypt = (payload: IPayload): Promise<IResponse> => {
-	return new Promise((resolve) => {
-		const id = new Date().getTime();
-		resolver[id.toString()] = resolve;
-		worker.postMessage({
-			...payload,
-			action: 'decrypt',
-			id,
-		});
-	});
-};
-
 export const initAget = () => {
 	console.log('Start agent worker');
+	resolvers = new Map();
 	worker = new Worker(new URL('../workers/encrypter.ts', import.meta.url), {
 		type: 'module',
 	});
-	worker.onmessage = (e: MessageEvent<IResponse>) => {
+	worker.onmessage = (e: MessageEvent<ICryptoResponse>) => {
 		const res = e.data;
 		console.log('New Response', res.id);
-		resolver[res.id](res);
+		const resolve = resolvers.get(res.id);
+		resolve(res);
+		resolvers.delete(res.id);
 	};
 };
 
+export const run = (payload: ICryptoPayload): Promise<ICryptoResponse> => {
+	return new Promise((resolve) => {
+		const id = new Date().getTime();
+		resolvers.set(id, resolve);
+		worker.postMessage({
+			...payload,
+			id,
+		});
+	});
+};
+
 export const cryptoAgent = {
-	encrypt,
-	decrypt,
+	run,
 };

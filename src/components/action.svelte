@@ -1,33 +1,40 @@
 <script lang="ts">
+	import type { ICryptoPayload } from '../interfaces/crypto-payload';
 	import { selectedCipher } from '../stores/ciphers';
+	import { cryptoAgent } from '../stores/crypto-agent';
 	import { dataOutput, isDecrypt, secretKey, strInput, isFromFile, fileInput } from '../stores/data';
-	import { strToUtf16Bytes } from '../utils/str-to-16-bytes';
-
-	const BASE_URL = 'http://localhost:4001';
+	import { strToBytes } from '../utils/str-to-bytes';
 
 	let message = '';
 
 	const run = async () => {
 		try {
-			const formData = new FormData();
-			formData.set('key', $secretKey);
-			formData.set('file', $isFromFile ? $fileInput?.file : new Blob([new Uint8Array(strToUtf16Bytes($strInput))]));
+			let data: Uint8Array;
 
-			dataOutput.set([]);
+			if ($isFromFile) {
+				const buff = await $fileInput.file.arrayBuffer();
+				data = new Uint8Array(buff);
+			} else {
+				data = new Uint8Array(strToBytes($strInput));
+			}
+
+			const payload: ICryptoPayload = {
+				algorithm: $selectedCipher.label,
+				data,
+				key: $secretKey,
+				action: $isDecrypt ? 'decrypt' : 'encrypt',
+			};
+
 			message = 'Loading...';
-			const response = await fetch(`${BASE_URL}/${$isDecrypt ? 'decrypt' : 'encrypt'}/${$selectedCipher.label}`, {
-				method: 'POST',
-				body: formData,
-			});
-			const result = await response.json();
+			const response = await cryptoAgent.run(payload);
 			message = '';
 
-			if (!result?.success) {
-				message = result?.message;
+			if (!response?.success) {
+				message = response.message;
 				return;
 			}
 
-			dataOutput.set(result.data);
+			dataOutput.set(response.data);
 		} catch (error) {
 			console.log('Error', error);
 			message = error.message;
