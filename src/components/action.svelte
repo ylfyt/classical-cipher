@@ -6,6 +6,7 @@
 	import { strToBytes } from '../utils/str-to-bytes';
 
 	let message = '';
+	let loading = false;
 
 	const run = async () => {
 		try {
@@ -25,9 +26,11 @@
 				action: $isDecrypt ? 'decrypt' : 'encrypt',
 			};
 
+			loading = true;
 			message = 'Loading...';
 			const response = await cryptoAgent.run(payload);
 			message = '';
+			loading = false;
 
 			if (!response?.success) {
 				message = response.message;
@@ -44,10 +47,10 @@
 
 <div class="flex gap-4 px-4 py-2 border-2 rounded-md items-center">
 	<button
-		disabled={$secretKey.length === 0 || ($isFromFile ? !$fileInput?.file : $strInput.length === 0)}
+		disabled={loading || $secretKey.length === 0 || ($isFromFile ? !$fileInput?.file : $strInput.length === 0)}
 		on:click={run}
-		class={`disabled:cursor-not-allowed p-2 bg-gray-400 shadow-md rounded-md text-black
-      ${$secretKey.length === 0 || ($isFromFile ? !$fileInput?.file : $strInput.length === 0) ? 'opacity-50' : 'hover:bg-gray-500'}
+		class={`disabled:cursor-not-allowed p-2 bg-gray-400 hover:bg-gray-500 disabled:hover:bg-gray-400 shadow-md rounded-md text-black
+      ${$secretKey.length === 0 || ($isFromFile ? !$fileInput?.file : $strInput.length === 0) ? 'opacity-50' : ''}
     `}>RUN</button
 	>
 	<div class="text-lg">
