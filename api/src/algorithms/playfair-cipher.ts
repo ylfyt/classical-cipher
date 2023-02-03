@@ -34,7 +34,7 @@ const generateKeyMatrix = (key: number[]) => {
 	const keyArray: number[] = [];
 
 	for (let i = 0; i < key.length; i++) {
-		if (!keyArray.includes(key[i]) && key[i] != j_ASCII_CODE) keyArray.push(key[i]);
+		if (!keyArray.includes(key[i]) && key[i] !== j_ASCII_CODE) keyArray.push(key[i]);
 	}
 
 	const alphabet = strToBytes('abcdefghiklmnopqrstuvwxyz');
@@ -47,7 +47,7 @@ const generateKeyMatrix = (key: number[]) => {
 
 const generateBigram = (data: Uint8Array) => {
 	for (let i = 0; i < data.length; i++) {
-		if (data[i] == j_ASCII_CODE) data[i] = i_ASCII_CODE;
+		if (toLower(data[i]) === j_ASCII_CODE) data[i] = i_ASCII_CODE;
 	}
 
 	const bigramArray: number[][] = [];
