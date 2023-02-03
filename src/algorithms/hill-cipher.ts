@@ -66,7 +66,7 @@ const inverse = (mat: number[][], size: number): number[][] | undefined => {
 	return mathMod(comatrix, 26);
 };
 
-export const hillEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const hillEncrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const key: number[] = [];
 	keyStr.split('|').forEach((val) => {
 		const num = parseInt(val);
@@ -106,10 +106,10 @@ export const hillEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 		plainCounter++;
 	});
 
-	return result;
+	return new Uint8Array(result);
 };
 
-export const hillDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const hillDecrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const key: number[] = [];
 	keyStr.split('|').forEach((val) => {
 		const num = parseInt(val);
@@ -146,5 +146,5 @@ export const hillDecrypt = (data: Uint8Array, keyStr: string): number[] => {
 		plainCounter++;
 	});
 
-	return result;
+	return new Uint8Array(result);
 };

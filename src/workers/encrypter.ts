@@ -2,11 +2,44 @@ import { ciphers } from '../algorithms/ciphers';
 import type { ICryptoRequest } from '../interfaces/crypto-request';
 import type { ICryptoResponse } from '../interfaces/crypto-response';
 
-self.onmessage = (e: MessageEvent<ICryptoRequest>) => {
-	console.log('New Request', e.data.id);
+let tmpRequest: ICryptoRequest;
 
-	const res = handler(e.data);
-	self.postMessage(res);
+self.onmessage = (e: MessageEvent<ICryptoRequest | Uint8Array>) => {
+	const req = e.data;
+	if (req instanceof Uint8Array) {
+		console.log(`Get data for ${tmpRequest.id} with length : ${req.length}`);
+		tmpRequest.data = req;
+		const res = handler(tmpRequest);
+    console.log(4);
+		if (!res.success) {
+      console.log(5);
+			self.postMessage(res);
+		} else {
+      console.log(6);
+			const data = res.data;
+			res.data = new Uint8Array(0);
+      console.log(7);
+			console.log(data);
+			console.log(res);
+      console.log(8);
+			self.postMessage(res);
+      console.log(9);
+			self.postMessage(data, {
+				transfer: [data.buffer],
+			});
+      console.log(10);
+			console.log('====');
+			console.log(data);
+			console.log(res);
+      console.log(11);
+		}
+		tmpRequest = undefined;
+		return;
+	}
+	tmpRequest = req;
+	console.log(req);
+
+	console.log(`New request ${req.id}, waiting for data...`);
 };
 
 const handler = (req: ICryptoRequest): ICryptoResponse => {
@@ -44,9 +77,12 @@ const handler = (req: ICryptoRequest): ICryptoResponse => {
 		};
 
 	try {
+    console.log(1);
+    
 		const resolver = action === 'encrypt' ? cipher.encrypter : cipher.decrypter;
-
+    console.log(2);
 		const result = resolver(data, key);
+    console.log(3);
 		return {
 			id: req.id,
 			success: true,

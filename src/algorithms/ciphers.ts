@@ -7,8 +7,8 @@ import { playfairDecrypt, playfairEncrypt } from './playfair-cipher.js';
 import { vigenereDecrypt, vigenereEncrypt } from './vigener-cipher.js';
 
 export interface ICipher {
-	encrypter: (data: Uint8Array, key: string) => number[];
-	decrypter: (data: Uint8Array, key: string) => number[];
+	encrypter: (data: Uint8Array, key: string) => Uint8Array;
+	decrypter: (data: Uint8Array, key: string) => Uint8Array;
 }
 
 export const ciphers = new Map<string, ICipher>([

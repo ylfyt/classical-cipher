@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export const dataOutput = writable<number[]>([]);
+export const dataOutput = writable<Uint8Array | null>(null);
 export const secretKey = writable<string>('');
 export const isDecrypt = writable<boolean>(false);
 export const strInput = writable<string>('');
@@ -14,7 +14,7 @@ export const fileInput = writable<
 >();
 
 export const resetState = () => {
-	dataOutput.set([]);
+	dataOutput.set(null);
 	strInput.set('');
 	fileInput.set(undefined);
 };

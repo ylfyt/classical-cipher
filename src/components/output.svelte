@@ -9,7 +9,7 @@
 	let isText: boolean | null = null;
 
 	$: (() => {
-		if ($dataOutput.length === 0) {
+		if (!$dataOutput || $dataOutput.length === 0) {
 			isText = null;
 			return;
 		}
@@ -98,7 +98,7 @@
 		</div>
 	</div>
 
-	{#if $dataOutput.length !== 0 && isText === false}
+	{#if $dataOutput?.length !== 0 && isText === false}
 		<div class="border-2 p-2 min-h-[50px] rounded-md flex items-center">
 			<div class="bg-red-300 text-center w-3/4 mx-auto">Output is a binary file. Please download it!</div>
 		</div>

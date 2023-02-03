@@ -29,7 +29,7 @@
 				isText: true,
 			});
 
-			preview = bytesToStr(Array.from(data.slice(0, 10000)));
+			preview = bytesToStr(new Uint8Array(Array.from(data.slice(0, 10000))));
 		};
 		fr.readAsArrayBuffer(file);
 	}
@@ -43,7 +43,7 @@
 				isFromFile.set(false);
 				strInput.set('');
 				fileInput.set(undefined);
-				dataOutput.set([]);
+				dataOutput.set(null);
 				files = undefined;
 			}}>Text</button
 		>
@@ -53,7 +53,7 @@
 				isFromFile.set(true);
 				strInput.set('');
 				fileInput.set(undefined);
-				dataOutput.set([]);
+				dataOutput.set(null);
 				files = undefined;
 			}}>File</button
 		>
