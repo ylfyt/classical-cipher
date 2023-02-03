@@ -3,7 +3,7 @@
 	import Home from './pages/home.svelte';  
 </script>
 
-<Router>
+<Router basepath={import.meta.env.BASE_URL}>
 	<main class="app bg-slate-300 min-h-screen flex justify-center">
 		<div class="w-3/4 lg:w-1/2">
 			<Route path="/*" primary={false}>
