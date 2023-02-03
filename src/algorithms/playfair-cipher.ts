@@ -34,7 +34,7 @@ const generateKeyMatrix = (key: number[]) => {
 	const keyArray: number[] = [];
 
 	for (let i = 0; i < key.length; i++) {
-		if (!keyArray.includes(key[i]) && key[i] != j_ASCII_CODE) keyArray.push(key[i]);
+		if (!keyArray.includes(key[i]) && key[i] !== j_ASCII_CODE) keyArray.push(key[i]);
 	}
 
 	const alphabet = strToBytes('abcdefghiklmnopqrstuvwxyz');
@@ -47,7 +47,7 @@ const generateKeyMatrix = (key: number[]) => {
 
 const generateBigram = (data: Uint8Array) => {
 	for (let i = 0; i < data.length; i++) {
-		if (data[i] == j_ASCII_CODE) data[i] = i_ASCII_CODE;
+		if (toLower(data[i]) === j_ASCII_CODE) data[i] = i_ASCII_CODE;
 	}
 
 	const bigramArray: number[][] = [];
@@ -76,7 +76,7 @@ const findElementOnMatrix = (element: number, matrix: number[][]): number[] | un
 	}
 };
 
-export const playfairEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const playfairEncrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const cleanKey = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	data = data.filter((val) => isAlphabet(val));
 
@@ -110,10 +110,10 @@ export const playfairEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 		result.push(tempB);
 	}
 
-	return result;
+	return new Uint8Array(result);
 };
 
-export const playfairDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const playfairDecrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const cleanKey = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	data = data.filter((val) => isAlphabet(val));
 
@@ -147,5 +147,5 @@ export const playfairDecrypt = (data: Uint8Array, keyStr: string): number[] => {
 		result.push(tempB);
 	}
 
-	return result;
+	return new Uint8Array(result);
 };

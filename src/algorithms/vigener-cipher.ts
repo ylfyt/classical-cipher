@@ -13,7 +13,7 @@ const D = (cj: number, ki: number): number => {
 	return mod(cj - ki, 26);
 };
 
-export const vigenereEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const vigenereEncrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const key = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	const result: number[] = [];
 
@@ -32,10 +32,10 @@ export const vigenereEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 		result.push(e + a_ASCII_CODE);
 	});
 
-	return result;
+	return new Uint8Array(result);
 };
 
-export const vigenereDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const vigenereDecrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const key = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	const result: number[] = [];
 
@@ -54,5 +54,5 @@ export const vigenereDecrypt = (data: Uint8Array, keyStr: string): number[] => {
 		result.push(d + a_ASCII_CODE);
 	});
 
-	return result;
+	return new Uint8Array(result);
 };

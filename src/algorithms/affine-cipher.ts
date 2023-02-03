@@ -13,7 +13,7 @@ const D = (cj: number, mi: number, kb: number): number => {
 	return mod(mi * (cj - kb), 26);
 };
 
-export const affineEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const affineEncrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const keyData = keyStr.split('|');
 	if (keyData.length !== 2) throw new Error('Key should be 2 number');
 	const keyM = parseInt(keyData[0]);
@@ -33,7 +33,7 @@ export const affineEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 		result.push(e + a_ASCII_CODE);
 	});
 
-	return result;
+	return new Uint8Array(result);
 };
 
 const inverse = (a: number, b: number) => {
@@ -46,7 +46,7 @@ const inverse = (a: number, b: number) => {
 	return -1;
 };
 
-export const affineDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const affineDecrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const keyData = keyStr.split('|');
 	if (keyData.length !== 2) throw new Error('Key should be 2 number');
 	const keyM = parseInt(keyData[0]);
@@ -68,5 +68,5 @@ export const affineDecrypt = (data: Uint8Array, keyStr: string): number[] => {
 		result.push(d + a_ASCII_CODE);
 	});
 
-	return result;
+	return new Uint8Array(result);
 };
