@@ -1,5 +1,4 @@
 import { ciphers } from '../algorithms/ciphers';
-import { hello } from './utils';
 
 interface IRequest {
 	id: string;
@@ -10,13 +9,11 @@ interface IRequest {
 }
 
 interface IResponse {
+	id: string;
 	success: boolean;
 	message: string;
 	data?: number[];
 }
-
-console.log('worker');
-hello();
 
 const run = (payload: { id: string; data: string }) => {
 	const start = new Date().getTime();
@@ -30,7 +27,7 @@ const run = (payload: { id: string; data: string }) => {
 };
 
 self.onmessage = (e: MessageEvent<IRequest>) => {
-	console.log('New Request', e.data);
+	console.log('New Request', e.data.id);
 
 	const res = handler(e.data);
 	self.postMessage(res);
@@ -40,6 +37,7 @@ const handler = (req: IRequest): IResponse => {
 	const action = req.action;
 	if (action !== 'encrypt' && action !== 'decrypt')
 		return {
+			id: req.id,
 			success: false,
 			message: 'Action should be encrypt or decrypt',
 		};
@@ -48,6 +46,7 @@ const handler = (req: IRequest): IResponse => {
 	const cipher = ciphers.get(alg);
 	if (!cipher)
 		return {
+			id: req.id,
 			success: false,
 			message: 'Algorithm not found',
 		};
@@ -55,6 +54,7 @@ const handler = (req: IRequest): IResponse => {
 	const key = req.keyStr;
 	if (!key || key.length === 0)
 		return {
+			id: req.id,
 			success: false,
 			message: 'Key is required',
 		};
@@ -62,6 +62,7 @@ const handler = (req: IRequest): IResponse => {
 	const data = req.file;
 	if (!data || data.length === 0)
 		return {
+			id: req.id,
 			success: false,
 			message: 'Data is required',
 		};
@@ -71,6 +72,7 @@ const handler = (req: IRequest): IResponse => {
 
 		const result = resolver(data, key);
 		return {
+			id: req.id,
 			success: true,
 			data: result,
 			message: '',
@@ -78,6 +80,7 @@ const handler = (req: IRequest): IResponse => {
 	} catch (error) {
 		const err = error as Error;
 		return {
+			id: req.id,
 			success: false,
 			message: err.message,
 		};
