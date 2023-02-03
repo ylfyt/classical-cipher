@@ -76,7 +76,7 @@ const findElementOnMatrix = (element: number, matrix: number[][]): number[] | un
 	}
 };
 
-export const playfairEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const playfairEncrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const cleanKey = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	data = data.filter((val) => isAlphabet(val));
 
@@ -110,10 +110,10 @@ export const playfairEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 		result.push(tempB);
 	}
 
-	return result;
+	return new Uint8Array(result);
 };
 
-export const playfairDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const playfairDecrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const cleanKey = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	data = data.filter((val) => isAlphabet(val));
 
@@ -147,5 +147,5 @@ export const playfairDecrypt = (data: Uint8Array, keyStr: string): number[] => {
 		result.push(tempB);
 	}
 
-	return result;
+	return new Uint8Array(result);
 };

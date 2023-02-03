@@ -9,36 +9,34 @@ const D = (cj: number, ki: number): number => {
 	return mod(cj - ki, 256);
 };
 
-export const extendedVigenereEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const extendedVigenereEncrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const key = strToBytes(keyStr.toLowerCase());
-	const result: number[] = [];
 
 	let keyCounter = 0;
-	data.forEach((pj) => {
+	for (let i = 0; i < data.length; i++) {
 		const keyIdx = keyCounter % key.length;
 		const ki = key[keyIdx];
 
 		keyCounter++;
-		const e = E(pj, ki);
-		result.push(e);
-	});
+		const e = E(data[i], ki);
+		data[i] = e;
+	}
 
-	return result;
+	return data;
 };
 
-export const extendedVigenereDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const extendedVigenereDecrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const key = strToBytes(keyStr.toLowerCase());
-	const result: number[] = [];
 
 	let keyCounter = 0;
-	data.forEach((cj) => {
+	for (let i = 0; i < data.length; i++) {
 		const keyIdx = keyCounter % key.length;
 		const ki = key[keyIdx];
 
 		keyCounter++;
-		const d = D(cj, ki);
-		result.push(d);
-	});
+		const d = D(data[i], ki);
+		data[i] = d;
+	}
 
-	return result;
+	return data;
 };

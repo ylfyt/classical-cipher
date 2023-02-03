@@ -10,7 +10,8 @@ const getRotors = (key: number[]): number[][] => {
 	const alphabet = new Uint8Array(strToBytes('abcdefghijklmnopqrstuvwxyz'));
 	const rotors: number[][] = [];
 	key.forEach((val, idx) => {
-		const temp = affineEncrypt(alphabet, `7|${idx}`);
+		const data = affineEncrypt(alphabet, `7|${idx}`);
+		const temp: number[] = [...data];
 		const delta = temp.indexOf(val);
 		for (let i = 0; i < delta; i++) {
 			const first = temp.shift();
@@ -22,7 +23,7 @@ const getRotors = (key: number[]): number[][] => {
 	return rotors;
 };
 
-export const enigmaEncrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const enigmaEncrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const key = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	const rotors = getRotors(key);
 	const cleanData = dataCleaner(data);
@@ -45,10 +46,10 @@ export const enigmaEncrypt = (data: Uint8Array, keyStr: string): number[] => {
 		}
 	});
 
-	return result;
+	return new Uint8Array(result);
 };
 
-export const enigmaDecrypt = (data: Uint8Array, keyStr: string): number[] => {
+export const enigmaDecrypt = (data: Uint8Array, keyStr: string): Uint8Array => {
 	const key = dataCleaner(new Uint8Array(strToBytes(keyStr.toLowerCase())));
 	const rotors = getRotors(key);
 	const cleanData = dataCleaner(data);
@@ -71,5 +72,5 @@ export const enigmaDecrypt = (data: Uint8Array, keyStr: string): number[] => {
 		}
 	});
 
-	return result;
+	return new Uint8Array(result);
 };
